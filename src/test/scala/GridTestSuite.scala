@@ -15,4 +15,5 @@ class GridTestSuite extends FunSuite {
     //assert(ourGrid.getPoint(1, 'A') == )
   }
 
+
 }
