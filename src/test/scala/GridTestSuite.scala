@@ -13,5 +13,12 @@ class GridTestSuite extends FunSuite {
 
   test("A grid must have 100 cells") {
     assert(ourGrid.getCells.size == 100)
+
+  test("A grid must return nothing if coordinates out of the grid") {
+    assert(ourGrid.getCell( ('K',50999)).isEmpty)
+  }
+
+  test("A grid must return a cell if coordinates in the grid") {
+    assert(ourGrid.getCell(('A',1)).isDefined)
   }
 }
