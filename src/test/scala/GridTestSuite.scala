@@ -11,12 +11,7 @@ class GridTestSuite extends FunSuite {
     assert(ourGrid.getColumns == 10)
   }
 
-  test("A coordinate should point to a given square on the grid") {
-    //assert(ourGrid.getPoint(1, 'A') == )
-  }
-
-  test("must be able to return a cell given set of coordinate") {
-    val c:Cell = new Cell('A', 1)
-    assert(outGrid.getCell('A', 1) == Cell
+  test("A grid must have 100 cells") {
+    assert(ourGrid.getCells.size == 100)
   }
 }
