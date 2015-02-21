@@ -14,4 +14,5 @@ class GridTestSuite extends FunSuite {
   test("A coordinate should point to a given square on the grid") {
     //assert(ourGrid.getPoint(1, 'A') == )
   }
+
 }

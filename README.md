@@ -42,3 +42,6 @@ To speed up the game a player is allowed to fire as many shots as ships that he/
 * Destroyer (3 length) - This will be a Neutrashimy
 * Patrol Boat (2 length) - This will be the Sentinel class
 
+
+## Setting up Project on Intellij
+Clone the repository to your workspace and import the build.sbt into Intellij and the IDE will do the rest.
