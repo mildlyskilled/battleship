@@ -9,6 +9,6 @@ case class Grid() {
 
   def getCells: List[Cell] = ???
 
-  def getCell(coordinates: (Char, Int)) = ???
+  def getCell(coordinates: (Char, Int)) :Option[Cell] = ???
 
 }
