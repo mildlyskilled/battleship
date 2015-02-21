@@ -1,7 +1,7 @@
 import org.scalatest.FunSuite
 import com.mildlyskilled.actors.Grid
 
-class TestSuite extends FunSuite {
+class GridTestSuite extends FunSuite {
   val ourGrid = new Grid
   test("A grid must have should have 10 rows") {
     assert(ourGrid.getRows == 10)
