@@ -29,7 +29,7 @@ This game is played by a 2 players on two grids with 5 ships each.
 
 * A ship is sunk if all the squares it occupies are hit.
 
-* A distinction must be made between hits and misses
+* A distinction must be made between hits and misses.
 
 ### Salvo Variant (to be implemented in version 2)
 To speed up the game a player is allowed to fire as many shots as ships that he/she has in the game the number of shots are directly proportional to the number of ships he/she has available. For example if a player has 5 ships he/she is allowed to fire 5 shots at the opponent, 4 ships will only allow a player 4 shots and so on.
@@ -42,3 +42,6 @@ To speed up the game a player is allowed to fire as many shots as ships that he/
 * Destroyer (3 length) - This will be a Neutrashimy
 * Patrol Boat (2 length) - This will be the Sentinel class
 
+
+## Setting up Project on Intellij
+Clone the repository to your workspace and import the build.sbt into Intellij and the IDE will do the rest.
