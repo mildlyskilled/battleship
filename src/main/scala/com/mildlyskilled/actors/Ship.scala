@@ -22,7 +22,8 @@ abstract class Ship(val length: Int) {
   val occupiedCells: List[Cell] = {
 
     // TODO: build the cells that are occupied by the ship on the grid
-    return ???
+    // I think dave has a neat way to do this in probably 1 line
+    ???
 
   }
 
