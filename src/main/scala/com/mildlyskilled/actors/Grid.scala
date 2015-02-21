@@ -7,5 +7,8 @@ case class Grid() {
 
   def getColumns: Int = 1
 
+  def getCells: List[Cell] = ???
+
+  def getCell(coordinates: (Char, Int)) = ???
 
 }
