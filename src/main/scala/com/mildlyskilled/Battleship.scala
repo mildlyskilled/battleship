@@ -1,7 +1,8 @@
 package com.mildlyskilled
 
 
-object Battleship extends App{
-
-  println("Battle ship")
+object Battleship {
+  def main(args: Array[String]) {
+    println ("Battleship")
+  }
 }
