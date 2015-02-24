@@ -1,12 +1,15 @@
 package com.mildlyskilled.actors
 
-case class Cell(coordinates: (Char, Int)) {
+import akka.actor.Actor
 
-  def occupy(state: Boolean) = ???
+class Cell(coordinates: (Int, Int)) extends Actor{
+  var isOccupied: Boolean = false
+  var isActive = true
 
-  def isOccupied:Boolean = ???
+  def occupy(state: Boolean) = isOccupied = state
 
-  def activate(state: Boolean) = ???
+  def activate(state: Boolean) = isActive = state
 
-  def isActive:Boolean = ???
+  def receive = ???
+
 }
