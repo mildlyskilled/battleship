@@ -6,6 +6,7 @@ import org.scalatest.WordSpecLike
 import org.scalatest.matchers.MustMatchers
 
 
+
 class GridTestSuite extends TestKit(ActorSystem("testSystem"))
 // Using the ImplicitSender trait will automatically set `testActor` as the sender
 with ImplicitSender
@@ -20,6 +21,6 @@ with MustMatchers {
       // This method assert that the `testActor` has received a specific message
       expectMsg("Grid Built")
     }
-  }
 
+  }
 }
