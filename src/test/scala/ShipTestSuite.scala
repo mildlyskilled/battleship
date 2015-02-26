@@ -1,34 +1,28 @@
-import com.mildlyskilled.actors.{ShipDirection, BattleShip, Cell, Ship}
-import org.scalatest.FunSuite
+import akka.actor.Props
+import akka.testkit.TestActorRef
+import com.mildlyskilled.actors.{Ship, Cell}
+import com.mildlyskilled.messages._
+import com.mildlyskilled.utils.ShipDirection
 
-class ShipTestSuite extends FunSuite {
+class ShipTestSuite extends BattleShipTestHarness {
 
-  val aShip = new BattleShip(new Cell('A',1), ShipDirection.East)
+  val cellActor = TestActorRef(Props(new Cell((0, 0))))
+  val actorRef = TestActorRef(Props(new Ship(6, cellActor, new ShipDirection)))
+  "A ship actor" must {
+    "send back a valid number of occupied cells" in {
+      actorRef ! occupiedCells
+      expectMsg(Nil)
+    }
+    "send back an active status" in {
+      actorRef ! activeStatus
+      expectMsg(true)
+    }
 
-
-  test("A ship must have a valid direction") {
-    assert(aShip.direction != None)
-    assert(ShipDirection.values.contains(aShip.direction))
+    "send back a direction" in {
+      actorRef ! direction
+      expectMsg('N')
+    }
   }
-
-  test("A ship must have a length") {
-    assert(aShip.length != 0)
-  }
-
-  test("A ship must occupy cells equal to its length") {
-    assert(aShip.occupiedCells.length == aShip.length)
-  }
-
-
-  test("A ship must have set of coordinates equal to cells occupied") {
-    assert(false)
-
-  }
-
-  test("A ship must have set of coordinates on the grid") {
-    assert(false)
-  }
-
 
 
 }

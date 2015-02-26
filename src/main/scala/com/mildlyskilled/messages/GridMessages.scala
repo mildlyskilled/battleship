@@ -1,5 +1,6 @@
 package com.mildlyskilled.messages
 
 
-case class build(size: Int)
-
+case class buildGrid(size: Int)
+case object rows
+case object columns
