@@ -1,26 +1,46 @@
-import akka.testkit.TestActorRef
+import akka.actor.ActorRef
+import akka.testkit.{TestKit, TestActorRef}
 import com.mildlyskilled.actors.Grid
 import com.mildlyskilled.messages._
+import scala.collection.mutable
+import scala.collection.mutable.Map
+import scala.concurrent.duration._
 
 
 class GridTestSuite extends BattleShipTestHarness {
   // Creation of the TestActorRef
   val actorRef = TestActorRef[Grid]
   val gridSize = 10
-  "A gird actor" must {
+  var cellCount = 0
+
+  override def afterAll {
+    TestKit.shutdownActorSystem(system)
+  }
+
+  "A grid actor" must {
     "send back a result" in {
       actorRef ! buildGrid(gridSize)
       // This method assert that the `testActor` has received a specific message
       expectMsg("Grid Built")
     }
     "send back a number of rows" in {
-      actorRef ! rows
+      actorRef ! GridRows
       expectMsg(gridSize)
     }
 
     "send back a number of columns" in {
-      actorRef ! columns
+      actorRef ! GridColumns
       expectMsg(gridSize)
+    }
+
+    "send back a map of cell coordinates and actor references" in {
+      actorRef ! GridCells
+      expectMsgType[mutable.Map[(Int, Int), ActorRef]]
+    }
+
+    "Send back a reference to the Actor" in  {
+      actorRef ! Cell(0, 0)
+      expectMsgType[Option[ActorRef]]
     }
   }
 

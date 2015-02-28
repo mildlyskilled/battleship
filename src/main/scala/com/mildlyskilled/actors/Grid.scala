@@ -2,12 +2,13 @@ package com.mildlyskilled.actors
 
 import akka.actor.{ActorRef, Props, Actor}
 import com.mildlyskilled.messages._
+import scala.collection.mutable
 import scala.collection.mutable.Map
 
 class Grid extends Actor {
   var rows: Int = 0
   var columns: Int = 0
-  var cells =  Map[(Int, Int), ActorRef]()
+  var cells = mutable.Map[(Int, Int), ActorRef]()
 
   def getRows: Int = rows
 
@@ -22,14 +23,21 @@ class Grid extends Actor {
         cells += ((x, y) -> cellActor)
       }
     }
-
     true
 
   }
 
-  def getCells: List[Cell] = ???
+  def getCells: mutable.Map[(Int, Int), ActorRef] = {
+    println("CELLS")
+    cells foreach println
+    cells
+  }
 
-  def getCell(coordinates: (Char, Int)): Option[Cell] = ???
+  def getCell(coordinates: (Int, Int)): Option[ActorRef] = {
+    println("CELL")
+    println(cells.get(coordinates))
+    cells.get(coordinates)
+  }
 
   def receive = {
 
@@ -37,9 +45,14 @@ class Grid extends Actor {
       if (build(s)) sender ! "Grid Built"
     }
 
-    case rows => {
-      sender ! getRows
-    }
+    case GridRows => sender ! getRows
+
+    case GridColumns => sender ! getColumns
+
+    case GridCells => sender ! getCells
+
+    case Cell(x, y) => sender ! getCell((x, y))
+
     case _ => {
       sender ! "Blow up"
     }
