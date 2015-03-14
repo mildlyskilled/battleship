@@ -4,7 +4,18 @@ import akka.actor.{ActorRef, Props, Actor}
 import com.mildlyskilled.messages._
 import scala.collection.mutable
 import scala.collection.mutable.Map
+import com.mildlyskilled.common.ShipDirection
+import com.mildlyskilled.common.ShipDirection.ShipDirection
+import com.mildlyskilled.common.ShipDirection
+import com.mildlyskilled.actors.Grid._
 
+object Grid {
+
+   case class PlaceShipOnGrid(x:Int, y:Int, length:Int, direction: ShipDirection)
+   case class Fire(x:Int, y:Int)
+   case class PlaceShip(ship:ActorRef)
+   case object StartGame
+}
 class Grid extends Actor {
   var rows: Int = 0
   var columns: Int = 0
@@ -24,7 +35,6 @@ class Grid extends Actor {
       }
     }
     true
-
   }
 
   def getCells: mutable.Map[(Int, Int), ActorRef] = {
@@ -37,23 +47,60 @@ class Grid extends Actor {
     cells.get(coordinates)
   }
 
-  def receive = {
+   def next(x:Int, y:Int, direction: ShipDirection):(Int, Int) = {
+      val xFunc = direction match {
+         case ShipDirection.East => (v:Int)=>v+1
+         case ShipDirection.West => (v:Int)=>v-1
+         case _ => (v:Int)=>v
+      }
+      val yFunc = direction match {
+         case ShipDirection.North => (v:Int)=>v-1
+         case ShipDirection.South => (v:Int)=>v+1
+         case _ => (v:Int)=>v
+      }
+      (xFunc(x), yFunc(y))
+   }
 
-    case buildGrid(s: Int) => {
-      if (build(s)) sender ! "Grid Built"
-    }
 
-    case GridRows => sender ! getRows
+   def receive = initGrid orElse commonHandler
 
-    case GridColumns => sender ! getColumns
+   def initGrid:Receive = {
+      case BuildGrid(s: Int) => {
+         if (build(s)) {
+            sender ! "Grid Built"
+         }
+         context.become(gridBuilt orElse commonHandler)
+      }
+   }
 
-    case GridCells => sender ! getCells
+   def gridBuilt : Receive = {
+      case PlaceShipOnGrid(x,y,length, direction) =>
+         val ship = context.actorOf(Props(classOf[Ship], length))
+         (0 until length).foldLeft((x, y)){ case ((x, y), _) => {
+            cells((x, y)) ! PlaceShip(ship)
+            next(x, y, direction)
+         }}
+      case StartGame => context.become(playing orElse commonHandler)
+   }
 
-    case Cell(x, y) => sender ! getCell((x, y))
+   def playing : Receive = {
+      case Fire(x, y) =>
+   }
 
-    case _ => {
-      sender ! "Blow up"
-    }
 
-  }
+   def commonHandler : Receive = {
+
+      case GridRows => sender ! getRows
+
+      case GridColumns => sender ! getColumns
+
+      case GridCells => sender ! getCells
+
+      case Cell(x, y) => sender ! getCell((x, y))
+
+      case _ => {
+         sender ! "Blow up"
+      }
+
+   }
 }

@@ -127,6 +127,10 @@ src_managed/
 project/boot/
 .history
 .cache
-vagrant* 
+vagrant*
 .vagrant
 .DS_Store
+
+### Ensime ###
+.ensime
+.ensime_cache
