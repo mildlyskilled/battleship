@@ -28,8 +28,6 @@ class Grid extends Actor {
   }
 
   def getCells: mutable.Map[(Int, Int), ActorRef] = {
-    println("CELLS")
-    cells foreach println
     cells
   }
 

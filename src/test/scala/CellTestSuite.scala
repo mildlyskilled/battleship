@@ -1,23 +1,33 @@
-import org.scalatest.FunSuite
+import akka.testkit.{TestFSMRef, TestKit, TestActorRef}
+import akka.pattern.ask
+import akka.util.Timeout
+import scala.concurrent.duration._
+import com.mildlyskilled.messages._
 import com.mildlyskilled.actors.Cell
 
-class CellTestSuite extends FunSuite{
-  /*val aCell = new Cell(1, 1)
+class CellTestSuite extends BattleShipTestHarness{
 
-  test("A cell must have coordinates") {
-    assert(aCell.coordinates._1 == 1)
-    assert(aCell.coordinates._2 == 1)
+  implicit val timeout = Timeout(5 seconds)
 
+  override def afterAll() {
+    TestKit.shutdownActorSystem(system)
   }
+  val fsm = TestFSMRef(new Cell(10, 10))
+  val actorRef: TestActorRef[Cell] = fsm
 
-  test("A cell must have an occupied state") {
-    aCell.occupy(true)
-    assert(aCell.isOccupied)
-  }
+  println(fsm.stateName)
+  /*"A cell actor" must {
+    "send back it's coordinates" in {
+      fsm ! Coordinates
+    }
 
-  test("A cell must have an active state") {
-    aCell.activate(true)
-    assert(aCell.isActive)
-  }
-*/
+    "send back it's occupied status" in {
+      actorRef ! "occupy"
+    }
+
+    "send back it's active status" in {
+      val active = actorRef ? Active
+      println(active.value.get)
+    }
+  }*/
 }

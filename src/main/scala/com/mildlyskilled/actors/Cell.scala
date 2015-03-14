@@ -1,15 +1,51 @@
 package com.mildlyskilled.actors
 
-import akka.actor.Actor
+import akka.actor.FSM
+import com.mildlyskilled.messages._
+import com.mildlyskilled.states._
 
-class Cell(coordinates: (Int, Int)) extends Actor{
-  var isOccupied: Boolean = false
-  var isActive = true
+class Cell(coordinates: (Int, Int)) extends FSM[CellState, CellData]{
+  import context._
 
-  def occupy(state: Boolean) = isOccupied = state
+  startWith(Vacant, CellData(coordinates))
 
-  def activate(state: Boolean) = isActive = state
+  def occupied: Receive = {
+    case "occupy" => sender() ! "Occupied"
+    case "vacate" => become(vacant)
+    case "activate" => become(activated)
+    case "deactivate" => become(deactivated)
+  }
 
-  def receive = ???
+  def vacant: Receive = {
+    case "vacant" => sender() ! "Vacant"
+    case "occupy" => become(occupied)
+    case "activate" => become(activated)
+    case "deactivate" => become(deactivated)
+  }
 
+  def activated: Receive = {
+    case "vacant" => become(vacant)
+    case "occupy" => become(occupied)
+    case "activate" => sender() ! "Activated"
+    case "deactivate" => become(deactivated)
+  }
+
+  def deactivated: Receive = {
+    case "vacant" => become(vacant)
+    case "occupy" => become(occupied)
+    case "activate" => become(activated)
+    case "deactivate" => sender() ! "Deactivated"
+  }
+
+
+  override def receive = {
+
+    case Coordinates => sender ! coordinates
+    case "occupy" => become(occupied)
+    case "vacate" => become(vacant)
+    case "activate" => become(activated)
+    case "deactivate" => become(deactivated)
+  }
+
+  initialize()
 }

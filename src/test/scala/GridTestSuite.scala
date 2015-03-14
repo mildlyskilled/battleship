@@ -3,8 +3,6 @@ import akka.testkit.{TestKit, TestActorRef}
 import com.mildlyskilled.actors.Grid
 import com.mildlyskilled.messages._
 import scala.collection.mutable
-import scala.collection.mutable.Map
-import scala.concurrent.duration._
 
 
 class GridTestSuite extends BattleShipTestHarness {
@@ -13,7 +11,7 @@ class GridTestSuite extends BattleShipTestHarness {
   val gridSize = 10
   var cellCount = 0
 
-  override def afterAll {
+  override def afterAll() {
     TestKit.shutdownActorSystem(system)
   }
 
@@ -39,7 +37,8 @@ class GridTestSuite extends BattleShipTestHarness {
     }
 
     "Send back a reference to the Actor" in  {
-      actorRef ! Cell(0, 0)
+      actorRef ! Cell(10, 10)
+      // Test to make sure the message coming back is of type Option[ActorRef]
       expectMsgType[Option[ActorRef]]
     }
   }
