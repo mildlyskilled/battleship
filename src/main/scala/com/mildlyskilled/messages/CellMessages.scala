@@ -1,5 +1,5 @@
 package com.mildlyskilled.messages
 
-case object Coordinates extends Message
-case object Active extends Message
-case object Occupied extends Message
+case object PlaceShip extends Message
+case object Fire extends Message
+case object Init extends Message
