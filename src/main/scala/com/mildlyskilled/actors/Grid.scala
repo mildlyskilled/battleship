@@ -4,9 +4,9 @@ import akka.actor.{ActorRef, Props, Actor}
 import com.mildlyskilled.messages._
 import scala.collection.mutable
 import scala.collection.mutable.Map
-import com.mildlyskilled.utils.ShipDirection
-import com.mildlyskilled.utils.ShipDirection.ShipDirection
-import com.mildlyskilled.utils.ShipDirection
+import com.mildlyskilled.common.ShipDirection
+import com.mildlyskilled.common.ShipDirection.ShipDirection
+import com.mildlyskilled.common.ShipDirection
 import com.mildlyskilled.actors.Grid._
 
 object Grid {
