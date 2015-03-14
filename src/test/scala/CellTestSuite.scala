@@ -2,6 +2,7 @@ import akka.testkit.{TestActorRef, TestFSMRef, TestKit}
 import akka.util.Timeout
 import com.mildlyskilled.actors.{Ship, Cell}
 import com.mildlyskilled.messages.PlaceShip
+import com.mildlyskilled.states.Occupied
 
 import scala.concurrent.duration._
 
@@ -13,14 +14,18 @@ class CellTestSuite extends BattleShipTestHarness{
     TestKit.shutdownActorSystem(system)
   }
   val fsm = TestFSMRef(new Cell(10, 10))
-  val actorRef: TestActorRef[Cell] = fsm
+  val cellActor: TestActorRef[Cell] = fsm
 
-  val shipActor: TestActorRef[Ship] = ???
+  val shipActor = TestActorRef(new Ship(3))
 
   "A cell actor" must {
 
     "place ship" in {
-      actorRef ! PlaceShip(shipActor)
+      cellActor ! PlaceShip(shipActor)
+
+      //cell state occupied, data = ship ctor
+      assert(fsm.stateName == Occupied)
+      assert(fsm.stateData == PlaceShip(shipActor))
     }
 
   }
