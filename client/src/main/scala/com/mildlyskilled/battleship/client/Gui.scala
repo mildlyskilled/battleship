@@ -2,13 +2,9 @@ package com.midlyskilled.battleship.client
 
 import com.googlecode.lanterna.TerminalPosition
 import com.googlecode.lanterna.TerminalSize
-import com.googlecode.lanterna.TextCharacter
 import com.googlecode.lanterna.TextColor
 import com.googlecode.lanterna.graphics.TextGraphics
-import com.googlecode.lanterna.screen.TerminalScreen
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory
-import com.googlecode.lanterna.terminal.ansi.UnixTerminal
-import java.nio.charset.Charset
+
 
 object Gui {
 
@@ -17,8 +13,8 @@ object Gui {
     startY: Int,
     rows: Int,
     cols: Int,
-    rowPad: Int = 2,
-    colPad: Int = 4,
+    rowPad: Int = 1,
+    colPad: Int = 2,
     rowLabelPad: Int = 2,
     colLabelPad: Int = 1
   ) {
@@ -75,28 +71,4 @@ object Gui {
 
     graphics.setForegroundColor(prevColor)
   }
-}
-
-object Constants {
-  val playerStartX = 4
-  val playerStartY = 2
-  val enemyStartX = 100
-  val enemyStartY = 2
-  val rows = 10
-  val cols = 10
-}
-
-object Main extends App {
-  import Constants._
-
-  val terminal = new UnixTerminal(System.in, System.out, Charset.forName("UTF8"))
-  val screen = new TerminalScreen(terminal)
-
-  screen.startScreen()
-
-  val graphics = screen.newTextGraphics()
-  Gui.grid(graphics, Gui.Grid(playerStartX, playerStartY, rows, cols), Some(TextColor.Indexed.fromRGB(0, 255, 0)))
-  Gui.grid(graphics, Gui.Grid(enemyStartX, enemyStartY, rows, cols), Some(TextColor.Indexed.fromRGB(255, 0, 0)))
-
-  screen.refresh()
 }
