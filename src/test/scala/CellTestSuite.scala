@@ -34,7 +34,6 @@ class CellTestSuite extends BattleShipTestHarness{
       //cell state occupied, data = ship ctor
       assert(fsm.stateName == Inactive)
       assert(fsm.stateData == PlaceShip(shipActor))
-
     }
 
   }

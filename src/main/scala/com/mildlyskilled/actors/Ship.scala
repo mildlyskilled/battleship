@@ -1,6 +1,7 @@
 package com.mildlyskilled.actors
 
 import akka.actor.{Actor, ActorRef}
+import com.mildlyskilled.messages.Hit
 
 /**
  * The base class ship definition that has a definite length provided by the derived case class.
@@ -12,6 +13,10 @@ class Ship(val length: Int) extends Actor {
 
   val occupiedCells: List[ActorRef] = ???
 
-  def receive = ???
+  def receive = {
+    case Hit => {
+      print("Hit")
+    }
+  }
 
 }

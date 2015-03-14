@@ -11,27 +11,23 @@ class Cell(coordinates: (Int, Int)) extends FSM[CellState, Message]{
   when(Active) {
     //
     case Event(PlaceShip, ship) =>
-      println("Active")
       stay using ship
   }
 
 
   when(Inactive) {
     case Event(PlaceShip, ship) =>
-      println("Active")
       stay using ship
   }
 
   when(Occupied) {
     case Event(Fire(_,_), PlaceShip(ship)) =>
-      println("Active")
       ship ! Hit
       goto(Inactive)
   }
 
   when(Vacant) {
     case Event(PlaceShip(ship), _) => {
-
       goto(Occupied) using PlaceShip(ship)
     }
 
