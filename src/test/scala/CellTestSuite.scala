@@ -1,8 +1,8 @@
 import akka.testkit.{TestActorRef, TestFSMRef, TestKit}
 import akka.util.Timeout
 import com.mildlyskilled.actors.{Ship, Cell}
-import com.mildlyskilled.messages.PlaceShip
-import com.mildlyskilled.states.Occupied
+import com.mildlyskilled.messages._
+import com.mildlyskilled.states.{Inactive, Occupied}
 
 import scala.concurrent.duration._
 
@@ -26,6 +26,15 @@ class CellTestSuite extends BattleShipTestHarness{
       //cell state occupied, data = ship ctor
       assert(fsm.stateName == Occupied)
       assert(fsm.stateData == PlaceShip(shipActor))
+    }
+
+    "fire on occupied cell" in {
+      cellActor ! Fire(10, 10)
+
+      //cell state occupied, data = ship ctor
+      assert(fsm.stateName == Inactive)
+      assert(fsm.stateData == PlaceShip(shipActor))
+
     }
 
   }
