@@ -1,19 +1,16 @@
 package com.mildlyskilled.actors
 
-import akka.actor.{ActorRef, Props, Actor}
-import com.mildlyskilled.messages._
-import scala.collection.mutable
-import scala.collection.mutable.Map
+import akka.actor.{Actor, ActorRef, Props}
+import com.mildlyskilled.actors.Grid._
 import com.mildlyskilled.common.ShipDirection
 import com.mildlyskilled.common.ShipDirection.ShipDirection
-import com.mildlyskilled.common.ShipDirection
-import com.mildlyskilled.actors.Grid._
+import com.mildlyskilled.messages._
+
+import scala.collection.mutable
 
 object Grid {
 
    case class PlaceShipOnGrid(x:Int, y:Int, length:Int, direction: ShipDirection)
-   case class Fire(x:Int, y:Int)
-   case class PlaceShip(ship:ActorRef)
    case object StartGame
 }
 class Grid extends Actor {
