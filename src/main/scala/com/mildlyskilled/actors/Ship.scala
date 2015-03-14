@@ -9,7 +9,7 @@ import com.mildlyskilled.utils.ShipDirection
  * @param startCell the cell on which the ship should start building
  * @param direction the direction in which the ship should be facing when built
  */
-class Ship(val length: Int, startCell: ActorRef, direction: ShipDirection) extends Actor {
+class Ship(val length: Int, startCell: Cell, direction: ShipDirection) extends Actor {
 
   def build(): Unit = ???
 

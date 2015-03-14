@@ -1,7 +1,8 @@
 import akka.testkit.{TestActorRef, TestFSMRef, TestKit}
 import akka.util.Timeout
-import com.mildlyskilled.actors.Cell
-import com.mildlyskilled.messages.Fire
+import com.mildlyskilled.actors.{Ship, Cell}
+import com.mildlyskilled.messages.PlaceShip
+
 import scala.concurrent.duration._
 
 class CellTestSuite extends BattleShipTestHarness{
@@ -14,13 +15,13 @@ class CellTestSuite extends BattleShipTestHarness{
   val fsm = TestFSMRef(new Cell(10, 10))
   val actorRef: TestActorRef[Cell] = fsm
 
+  val shipActor: TestActorRef[Ship] =
+
 
   "A cell actor" must {
 
-    "send back hit" in {
-      actorRef ! Fire
-
-
+    "place ship" in {
+      actorRef ! PlaceShip(shipActor)
     }
 
   }

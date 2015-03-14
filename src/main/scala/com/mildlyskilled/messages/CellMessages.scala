@@ -1,5 +1,7 @@
 package com.mildlyskilled.messages
 
-case object PlaceShip extends Message
+import akka.actor.ActorRef
+
+case class PlaceShip(ship: ActorRef) extends Message
 case object Fire extends Message
 case object Init extends Message
