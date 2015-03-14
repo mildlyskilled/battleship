@@ -7,7 +7,7 @@ import com.mildlyskilled.common.ShipDirection
 class ShipTestSuite extends BattleShipTestHarness {
 
   val cellActor = TestActorRef(Props(new Cell((0, 0))))
-  val actorRef = TestActorRef(Props(new Ship(6, cellActor, new ShipDirection)))
+  val actorRef = TestActorRef(Props(new Ship(6)))
 
   override def afterAll() {
     TestKit.shutdownActorSystem(system)

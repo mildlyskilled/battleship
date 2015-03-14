@@ -5,11 +5,9 @@ import com.mildlyskilled.common.ShipDirection
 
 /**
  * The base class ship definition that has a definite length provided by the derived case class.
- * @param length the length of the ship
- * @param startCell the cell on which the ship should start building
- * @param direction the direction in which the ship should be facing when built
+ * @param cellCount the length of the ship
  */
-class Ship(val length: Int, startCell: ActorRef, direction: ShipDirection) extends Actor {
+class Ship(val cellCount: Int) extends Actor {
 
   def build(): Unit = ???
 

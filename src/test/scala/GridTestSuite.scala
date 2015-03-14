@@ -17,7 +17,7 @@ class GridTestSuite extends BattleShipTestHarness {
 
   "A grid actor" must {
     "send back a result" in {
-      actorRef ! buildGrid(gridSize)
+      actorRef ! BuildGrid(gridSize)
       // This method assert that the `testActor` has received a specific message
       expectMsg("Grid Built")
     }
