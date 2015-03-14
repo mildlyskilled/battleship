@@ -2,7 +2,7 @@ import akka.actor.Props
 import akka.testkit.{TestKit, TestActorRef}
 import com.mildlyskilled.actors.{Ship, Cell}
 import com.mildlyskilled.messages._
-import com.mildlyskilled.utils.ShipDirection
+import com.mildlyskilled.common.ShipDirection
 
 class ShipTestSuite extends BattleShipTestHarness {
 

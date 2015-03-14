@@ -1,4 +1,4 @@
-package com.mildlyskilled.utils
+package com.mildlyskilled.common
 
 class ShipDirection extends Enumeration {
   val North = Value("N")
