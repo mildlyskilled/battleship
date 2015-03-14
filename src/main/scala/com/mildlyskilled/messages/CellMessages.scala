@@ -1,9 +1,7 @@
 package com.mildlyskilled.messages
 
-case object Coordinates extends Message
+import akka.actor.ActorRef
 
-case object Active extends Message
-
-case object Occupied extends Message
-
-case class FireOnCell(x:Int, y:Int) extends Message
+case class PlaceShip(ship: ActorRef) extends Message
+case class Fire(x:Int, y:Int) extends Message
+case object Init extends Message

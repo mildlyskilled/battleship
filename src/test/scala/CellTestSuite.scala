@@ -1,9 +1,9 @@
-import akka.testkit.{TestFSMRef, TestKit, TestActorRef}
-import akka.pattern.ask
+import akka.testkit.{TestActorRef, TestFSMRef, TestKit}
 import akka.util.Timeout
+import com.mildlyskilled.actors.{Ship, Cell}
+import com.mildlyskilled.messages.PlaceShip
+
 import scala.concurrent.duration._
-import com.mildlyskilled.messages._
-import com.mildlyskilled.actors.Cell
 
 class CellTestSuite extends BattleShipTestHarness{
 
@@ -15,7 +15,17 @@ class CellTestSuite extends BattleShipTestHarness{
   val fsm = TestFSMRef(new Cell(10, 10))
   val actorRef: TestActorRef[Cell] = fsm
 
-  println(fsm.stateName)
+  val shipActor: TestActorRef[Ship] = ???
+
+  "A cell actor" must {
+
+    "place ship" in {
+      actorRef ! PlaceShip(shipActor)
+    }
+
+  }
+
+  //println(fsm.stateName)
   /*"A cell actor" must {
     "send back it's coordinates" in {
       fsm ! Coordinates
