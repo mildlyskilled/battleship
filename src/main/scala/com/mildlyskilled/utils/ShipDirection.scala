@@ -1,6 +1,7 @@
 package com.mildlyskilled.utils
 
-class ShipDirection extends Enumeration {
+object ShipDirection extends Enumeration {
+   type ShipDirection = Value
   val North = Value("N")
   val East = Value("E")
   val South = Value("S")
