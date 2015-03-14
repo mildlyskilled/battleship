@@ -15,8 +15,7 @@ class CellTestSuite extends BattleShipTestHarness{
   val fsm = TestFSMRef(new Cell(10, 10))
   val actorRef: TestActorRef[Cell] = fsm
 
-  val shipActor: TestActorRef[Ship] =
-
+  val shipActor: TestActorRef[Ship] = ???
 
   "A cell actor" must {
 
