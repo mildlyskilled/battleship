@@ -1,7 +1,7 @@
-package com.mildlyskilled.actors
+package com.mildlyskilled.battleship.client
 
 import akka.actor.{Actor, ActorRef}
-import com.mildlyskilled.messages.Hit
+import com.mildlyskilled.battleship.messages.Hit
 
 /**
  * The base class ship definition that has a definite length provided by the derived case class.

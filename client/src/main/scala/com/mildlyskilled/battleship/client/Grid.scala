@@ -1,30 +1,25 @@
-package com.mildlyskilled.actors
+package com.mildlyskilled.battleship.client
 
-import akka.actor.{Actor, ActorRef, Props}
-import com.mildlyskilled.actors.Grid._
-import com.mildlyskilled.common.ShipDirection
-import com.mildlyskilled.common.ShipDirection.ShipDirection
-import com.mildlyskilled.messages._
-
+import akka.actor._
+import akka.pattern._
 import scala.collection.mutable
-
+import com.mildlyskilled.common.ShipDirection.ShipDirection
+import com.mildlyskilled.common.ShipDirection
+import com.mildlyskilled.battleship.client.Grid._
+import com.mildlyskilled.battleship.messages._
 object Grid {
 
    case class PlaceShipOnGrid(x:Int, y:Int, length:Int, direction: ShipDirection)
+   case object Fire
+   case class InvalidCoords(x:Int, y:Int)
+   case class PlaceShip(ship:ActorRef)
    case object StartGame
 }
-class Grid extends Actor {
-  var rows: Int = 0
-  var columns: Int = 0
+
+class Grid(rows: Int, columns: Int) extends Actor {
   var cells = mutable.Map[(Int, Int), ActorRef]()
 
-  def getRows: Int = rows
-
-  def getColumns: Int = columns
-
   def build(size: Int): Boolean = {
-    rows = size
-    columns = size
     for (x <- 0 to size) {
       for (y <- 0 to size) {
         val cellActor = context.actorOf(Props(new Cell((x, y))), name = "cell_" + x.toString + y.toString)
@@ -32,16 +27,6 @@ class Grid extends Actor {
       }
     }
     true
-  }
-
-  def getCells: mutable.Map[(Int, Int), ActorRef] = {
-    cells
-  }
-
-  def getCell(coordinates: (Int, Int)): Option[ActorRef] = {
-    println("CELL")
-    println(cells.get(coordinates))
-    cells.get(coordinates)
   }
 
    def next(x:Int, y:Int, direction: ShipDirection):(Int, Int) = {
@@ -57,7 +42,6 @@ class Grid extends Actor {
       }
       (xFunc(x), yFunc(y))
    }
-
 
    def receive = initGrid orElse commonHandler
 
@@ -81,19 +65,22 @@ class Grid extends Actor {
    }
 
    def playing : Receive = {
-      case Fire(x, y) =>
+      case FireOnCell(x, y) =>
+         cells.get((x, y)) match {
+            case Some(ref) => (ref ? Fire).pipeTo(sender())
+            case None => sender() ! InvalidCoords(x, y)
+         }
    }
-
 
    def commonHandler : Receive = {
 
-      case GridRows => sender ! getRows
+      case GridRows => sender ! rows
 
-      case GridColumns => sender ! getColumns
+      case GridColumns => sender ! columns
 
-      case GridCells => sender ! getCells
+      case GridCells => sender ! cells
 
-      case Cell(x, y) => sender ! getCell((x, y))
+      case Cell(x, y) => sender ! cells.get((x, y))
 
       case _ => {
          sender ! "Blow up"

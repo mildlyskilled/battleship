@@ -1,8 +1,8 @@
-package com.mildlyskilled.actors
+package com.mildlyskilled.battleship.client
 
 import akka.actor.FSM
-import com.mildlyskilled.messages._
-import com.mildlyskilled.states._
+import com.mildlyskilled.battleship.messages._
+import com.mildlyskilled.battleship.client.states._
 
 class Cell(coordinates: (Int, Int)) extends FSM[CellState, Message]{
 
@@ -21,7 +21,7 @@ class Cell(coordinates: (Int, Int)) extends FSM[CellState, Message]{
   }
 
   when(Occupied) {
-    case Event(Fire(_,_), PlaceShip(ship)) =>
+    case Event(Fire, PlaceShip(ship)) =>
       ship ! Hit
       goto(Inactive)
   }

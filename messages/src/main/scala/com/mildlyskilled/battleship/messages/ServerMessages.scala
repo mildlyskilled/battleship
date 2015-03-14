@@ -1,4 +1,4 @@
-package com.mildlyskilled.messages
+package com.mildlyskilled.battleship.messages
 
 import com.mildlyskilled.common.Player
 

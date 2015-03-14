@@ -18,8 +18,24 @@ lazy val lanterna = "com.googlecode.lanterna" % "lanterna" % "3.0.0-alpha6"
 
 libraryDependencies ++= akkaDeps :+ scalatest
 
-lazy val client = project.in(file("client")).settings(
+
+
+lazy val messages = project.in(file("messages")).settings(
+   scalaVersion := "2.11.6",
   libraryDependencies ++= akkaDeps ++ Seq(
-    scalatest, lanterna
+    scalatest
   )
 )
+
+lazy val root = project.in(file(".")).settings(
+   libraryDependencies ++= akkaDeps ++ Seq(
+      scalatest
+   )
+).dependsOn(messages)
+
+lazy val client = project.in(file("client")).settings(
+   scalaVersion := "2.11.6",
+   libraryDependencies ++= akkaDeps ++ Seq(
+      scalatest, lanterna
+   )
+).dependsOn(messages)

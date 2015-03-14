@@ -1,4 +1,4 @@
-package com.mildlyskilled.messages
+package com.mildlyskilled.battleship.messages
 
 case object occupiedCells
 case object activeStatus
