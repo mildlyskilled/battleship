@@ -1,5 +1,4 @@
-package com.mildlyskilled.states
-
+package com.mildlyskilled.battleship.client.states
 
 sealed trait CellState
 case object Active extends CellState

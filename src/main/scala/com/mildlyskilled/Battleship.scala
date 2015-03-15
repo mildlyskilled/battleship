@@ -4,6 +4,7 @@ import akka.actor.{ActorSystem, Props}
 import com.mildlyskilled.actors.BattleshipServer
 import com.typesafe.config.ConfigFactory
 import com.mildlyskilled.messages._
+import com.mildlyskilled.battleship.messages.BeginGame
 
 
 object Battleship extends App{

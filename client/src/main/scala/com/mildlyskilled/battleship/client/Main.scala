@@ -34,5 +34,12 @@ object Main extends App {
 
   screen.readInput()
 
+   // we need to resolve the server
+   // then create two player actors
+   // system.actorOf(Props(classOf[PlayerActor]), "p1")
+   // system.actorOf(Props(classOf[PlayerActor]), "p2")
+
+
+
   screen.stopScreen()
 }

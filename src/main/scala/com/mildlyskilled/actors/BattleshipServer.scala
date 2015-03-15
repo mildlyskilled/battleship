@@ -1,8 +1,8 @@
 package com.mildlyskilled.actors
 
-import akka.actor.{ActorRef, Actor}
+import akka.actor.{Props, ActorRef, Actor}
 import com.mildlyskilled.common.Player
-import com.mildlyskilled.messages._
+import com.mildlyskilled.battleship.messages._
 import scala.collection.mutable.Map
 
 class BattleshipServer extends Actor {
@@ -12,6 +12,8 @@ class BattleshipServer extends Actor {
 
   def receive = {
     case BeginGame => println("Game starting")
+
+
     case ConnectClient(player) => {
       connectedPlayers += (sender() -> player)
       sender() ! InfoMessage("You're connected")
