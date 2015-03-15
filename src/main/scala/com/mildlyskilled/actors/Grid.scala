@@ -10,9 +10,12 @@ import scala.collection.mutable
 
 object Grid {
 
-   case class PlaceShipOnGrid(x:Int, y:Int, length:Int, direction: ShipDirection)
-   case object StartGame
+  case class PlaceShipOnGrid(x: Int, y: Int, length: Int, direction: ShipDirection)
+
+  case object StartGame
+
 }
+
 class Grid extends Actor {
   var rows: Int = 0
   var columns: Int = 0
@@ -44,60 +47,61 @@ class Grid extends Actor {
     cells.get(coordinates)
   }
 
-   def next(x:Int, y:Int, direction: ShipDirection):(Int, Int) = {
-      val xFunc = direction match {
-         case ShipDirection.East => (v:Int)=>v+1
-         case ShipDirection.West => (v:Int)=>v-1
-         case _ => (v:Int)=>v
+  def next(x: Int, y: Int, direction: ShipDirection): (Int, Int) = {
+    val xFunc = direction match {
+      case ShipDirection.East => (v: Int) => v + 1
+      case ShipDirection.West => (v: Int) => v - 1
+      case _ => (v: Int) => v
+    }
+    val yFunc = direction match {
+      case ShipDirection.North => (v: Int) => v - 1
+      case ShipDirection.South => (v: Int) => v + 1
+      case _ => (v: Int) => v
+    }
+    (xFunc(x), yFunc(y))
+  }
+
+
+  def receive = initGrid orElse commonHandler
+
+  def initGrid: Receive = {
+    case BuildGrid(s: Int) => {
+      if (build(s)) {
+        sender ! "Grid Built"
       }
-      val yFunc = direction match {
-         case ShipDirection.North => (v:Int)=>v-1
-         case ShipDirection.South => (v:Int)=>v+1
-         case _ => (v:Int)=>v
+      context.become(gridBuilt orElse commonHandler)
+    }
+  }
+
+  def gridBuilt: Receive = {
+    case PlaceShipOnGrid(x, y, length, direction) =>
+      val ship = context.actorOf(Props(classOf[Ship], length))
+      (0 until length).foldLeft((x, y)) { case ((x, y), _) => {
+        cells((x, y)) ! PlaceShip(ship)
+        next(x, y, direction)
       }
-      (xFunc(x), yFunc(y))
-   }
-
-
-   def receive = initGrid orElse commonHandler
-
-   def initGrid:Receive = {
-      case BuildGrid(s: Int) => {
-         if (build(s)) {
-            sender ! "Grid Built"
-         }
-         context.become(gridBuilt orElse commonHandler)
       }
-   }
+    case StartGame => context.become(playing orElse commonHandler)
+  }
 
-   def gridBuilt : Receive = {
-      case PlaceShipOnGrid(x,y,length, direction) =>
-         val ship = context.actorOf(Props(classOf[Ship], length))
-         (0 until length).foldLeft((x, y)){ case ((x, y), _) => {
-            cells((x, y)) ! PlaceShip(ship)
-            next(x, y, direction)
-         }}
-      case StartGame => context.become(playing orElse commonHandler)
-   }
-
-   def playing : Receive = {
-      case Fire(x, y) =>
-   }
+  def playing: Receive = {
+    case Fire(x, y) =>
+  }
 
 
-   def commonHandler : Receive = {
+  def commonHandler: Receive = {
 
-      case GridRows => sender ! getRows
+    case GridRows => sender ! getRows
 
-      case GridColumns => sender ! getColumns
+    case GridColumns => sender ! getColumns
 
-      case GridCells => sender ! getCells
+    case GridCells => sender ! getCells
 
-      case Cell(x, y) => sender ! getCell((x, y))
+    case Cell(x, y) => sender ! getCell((x, y))
 
-      case _ => {
-         sender ! "Blow up"
-      }
+    case _ => {
+      sender ! "Blow up"
+    }
 
-   }
+  }
 }

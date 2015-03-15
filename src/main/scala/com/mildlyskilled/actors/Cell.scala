@@ -4,7 +4,7 @@ import akka.actor.FSM
 import com.mildlyskilled.messages._
 import com.mildlyskilled.states._
 
-class Cell(coordinates: (Int, Int)) extends FSM[CellState, Message]{
+class Cell(coordinates: (Int, Int)) extends FSM[CellState, Message] {
 
   startWith(Vacant, Init)
 
@@ -21,7 +21,7 @@ class Cell(coordinates: (Int, Int)) extends FSM[CellState, Message]{
   }
 
   when(Occupied) {
-    case Event(Fire(_,_), PlaceShip(ship)) =>
+    case Event(Fire(_, _), PlaceShip(ship)) =>
       ship ! Hit
       goto(Inactive)
   }
